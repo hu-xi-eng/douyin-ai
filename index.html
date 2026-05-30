@@ -32,65 +32,67 @@
                 </div>
             </header>
 
-            <!-- 2. 单 Canvas 复刻厨房 -->
-            <section class="section section-canvas" id="sectionCanvas">
-                <div class="canvas-label-wrap">
-                    <span class="canvas-label">我的复刻厨房</span>
-                </div>
-                <div class="canvas-wrap canvas-wrap-solo">
-                    <canvas id="canvasPlayer"></canvas>
+            <!-- 2. 数据展示卡片：得分 / 还原程度 / 声音鉴定水平 -->
+            <section class="section section-info" id="sectionInfo">
+                <div class="info-card">
+
+                    <!-- 本轮得分 -->
+                    <div class="info-row info-row-score">
+                        <div class="info-label">本轮得分</div>
+                        <div class="score-value">
+                            <span class="score-number" id="scoreNumber">0</span>
+                            <span class="score-unit">分</span>
+                        </div>
+                        <div class="score-stars" id="scoreStars" aria-hidden="true">
+                            <span class="star"></span>
+                            <span class="star"></span>
+                            <span class="star"></span>
+                            <span class="star"></span>
+                            <span class="star"></span>
+                        </div>
+                    </div>
+
+                    <div class="info-divider"></div>
+
+                    <!-- 还原程度 -->
+                    <div class="info-row info-row-similarity">
+                        <div class="info-row-head">
+                            <span class="info-label">还原程度</span>
+                            <span class="info-percent" id="similarityPercent">0%</span>
+                        </div>
+                        <div class="score-bar">
+                            <div class="score-bar-fill" id="similarityBarFill"></div>
+                        </div>
+                    </div>
+
+                    <div class="info-divider"></div>
+
+                    <!-- 声音鉴定水平 -->
+                    <div class="info-row info-row-rank">
+                        <div class="info-label">声音鉴定水平</div>
+                        <div class="rank-tag" id="rankTag">
+                            <span class="rank-icon" aria-hidden="true">🎯</span>
+                            <span class="rank-name">听觉猎手</span>
+                            <span class="rank-meta">全服前 5%</span>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
-            <!-- 3. 得分展示区 -->
-            <section class="section section-score" id="sectionScore">
-                <div class="score-label">本轮得分</div>
-                <div class="score-value">
-                    <span class="score-number" id="scoreNumber">0</span>
-                    <span class="score-unit">分</span>
-                </div>
-                <div class="score-stars" id="scoreStars" aria-hidden="true">
-                    <span class="star"></span>
-                    <span class="star"></span>
-                    <span class="star"></span>
-                    <span class="star"></span>
-                    <span class="star"></span>
-                </div>
-                <div class="score-bar">
-                    <div class="score-bar-fill" id="scoreBarFill"></div>
-                </div>
-            </section>
-
-            <!-- 4. 称号标签区 -->
-            <section class="section section-medal" id="sectionMedal">
-                <span class="medal-tag" id="medalTag">
-                    <span class="medal-icon" aria-hidden="true">👨‍🍳</span>
-                    <span class="medal-text">颠勺小能手</span>
-                </span>
-            </section>
-
-            <!-- 5. 选中物品列表区 -->
-            <section class="section section-items" id="sectionItems">
-                <div class="items-head">
-                    <span class="items-title">本轮选中物品</span>
-                    <span class="items-count" id="itemsCount">共 0 件</span>
-                </div>
-                <div class="items-scroll">
-                    <ul class="items-list" id="itemsList">
-                        <!-- 物品由 JS 渲染 -->
-                    </ul>
-                </div>
-            </section>
-
-            <!-- 6. 趣味提示语区 -->
+            <!-- 3. 治愈系便签 -->
             <section class="section section-tip" id="sectionTip">
                 <div class="tip-note">
                     <span class="tip-tape" aria-hidden="true"></span>
-                    <p class="tip-text" id="tipText">独处时我才能听见自己的声音</p>
+                    <span class="tip-corner tip-corner-tl" aria-hidden="true">🍊</span>
+                    <span class="tip-corner tip-corner-tr" aria-hidden="true">⭐</span>
+                    <span class="tip-corner tip-corner-bl" aria-hidden="true">☁️</span>
+                    <span class="tip-corner tip-corner-br" aria-hidden="true">🌼</span>
+                    <p class="tip-text" id="tipText">感受活着的日子</p>
                 </div>
             </section>
 
-            <!-- 7. 底部按钮区 -->
+            <!-- 4. 底部按钮区 -->
             <footer class="section section-actions" id="sectionActions">
                 <button class="btn btn-secondary" id="btnHome" type="button">
                     <span class="btn-icon" aria-hidden="true">🏠</span>
