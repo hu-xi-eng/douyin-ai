@@ -176,7 +176,7 @@
     width: 100%;
     background: linear-gradient(180deg, #ffffff 0%, #fffaf0 100%);
     border-radius: 5cqw;
-    padding: 4cqw 5cqw 4cqw;
+    padding: 2.4cqw 3.6cqw 2.6cqw;
     box-shadow:
         0 1.2cqw 0 rgba(140, 70, 30, 0.18),
         0 2.4cqw 4cqw rgba(140, 70, 30, 0.22),
@@ -184,8 +184,7 @@
     border: 0.4cqw solid rgba(255, 255, 255, 0.85);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 2cqw;
+    gap: 1.2cqw;
 }
 
 .info-row {
@@ -196,7 +195,7 @@
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    margin-bottom: 1.2cqw;
+    margin-bottom: 0.6cqw;
 }
 
 .info-label {
@@ -216,7 +215,7 @@
 
 .info-divider {
     height: 0;
-    border-top: 0.25cqw dashed rgba(140, 70, 30, 0.25);
+    border-top: 1px dashed rgba(140, 70, 30, 0.28);
     margin: 0;
 }
 
@@ -226,7 +225,7 @@
 }
 .info-row-score .info-label {
     display: block;
-    margin-bottom: 0.4cqw;
+    margin-bottom: 0.2cqw;
 }
 
 .score-value {
@@ -258,7 +257,7 @@
 }
 
 .score-stars {
-    margin-top: 0.8cqw;
+    margin-top: 0.4cqw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -304,7 +303,7 @@
 }
 .info-row-rank .info-label {
     display: block;
-    margin-bottom: 1.4cqw;
+    margin-bottom: 0.6cqw;
 }
 
 .rank-tag {
@@ -347,13 +346,14 @@
 .tip-note {
     display: inline-block;
     position: relative;
-    max-width: 92%;
-    padding: 4.5cqw 6cqw 4cqw;
+    max-width: 88%;
+    /* 高度由内容撑开，不写固定高度 */
+    padding: 3cqw 5cqw 2.6cqw;
     background: linear-gradient(180deg, #fffaee 0%, #fff3d8 100%);
     border-radius: 3.2cqw;
     box-shadow:
-        0 1.2cqw 0 rgba(140, 70, 30, 0.14),
-        0 2cqw 3cqw rgba(140, 70, 30, 0.16);
+        0 1cqw 0 rgba(140, 70, 30, 0.14),
+        0 1.8cqw 2.8cqw rgba(140, 70, 30, 0.16);
     border: 0.3cqw solid rgba(255, 255, 255, 0.9);
 }
 
@@ -396,12 +396,21 @@
 .tip-corner-br { bottom: -1.6cqw; right: -1.4cqw; transform: rotate(-18deg); }
 
 .tip-text {
-    font-size: 4.4cqw;
-    font-weight: 900;
+    /* 固定 18px，最多两行，超出省略 */
+    font-size: 18px;
+    font-weight: 800;
     color: var(--c-brown);
-    line-height: 1.4;
-    letter-spacing: 0.08em;
-    text-shadow: 0 0.3cqw 0 rgba(255, 255, 255, 0.7);
+    line-height: 1.45;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-shadow: 0 0.2cqw 0 rgba(255, 255, 255, 0.7);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    word-break: break-word;
 }
 
 /* ===========================================================
