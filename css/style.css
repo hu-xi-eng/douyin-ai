@@ -60,17 +60,13 @@
     aspect-ratio: 9 / 16;
     display: flex;
     flex-direction: column;
-    /* 修改 1：厨房插画背景
-       图片放在项目内 assets/bg/ending.jpg，使用相对路径
-       不设置 background-color，避免覆盖背景图
-       fallback：图加载失败时只显示渐变 */
-    background-image:
-        url('./assets/bg/ending.jpg'),
-        linear-gradient(180deg, var(--c-bg-1) 0%, var(--c-bg-2) 55%, var(--c-bg-3) 100%);
-    background-size: cover, cover;
-    background-position: center top, center;
-    background-repeat: no-repeat, no-repeat;
-    background-attachment: fixed, scroll;
+    /* 厨房插画背景 —— 文件放在 web 根目录的 /ending.jpg
+       严格按规范，不写 background-color，避免覆盖背景图 */
+    background-image: url('/ending.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    min-height: 100vh;
     overflow: hidden;
     color: var(--c-brown);
     container-type: size;

@@ -245,7 +245,7 @@
      * 背景图预检：方便在控制台快速判断 bg 是否加载成功
      * ============================================================ */
     function checkBackgroundImage() {
-        var src = './assets/bg/ending.jpg';
+        var src = '/ending.jpg';
         var img = new Image();
         img.onload = function () {
             console.log('%c[BG] 背景图加载成功 ' + src + ' (' + img.naturalWidth + 'x' + img.naturalHeight + ')',
@@ -253,7 +253,8 @@
         };
         img.onerror = function () {
             console.warn('%c[BG] 背景图未找到：' + src +
-                         '\n请把厨房插画文件保存到 assets/bg/ending.jpg（项目根目录下）',
+                         '\n请把厨房插画放到项目根目录（与 index.html 同级），命名为 ending.jpg' +
+                         '\n并通过本地服务器访问（如 python3 -m http.server）',
                          'color:#d63a55;font-weight:bold');
         };
         img.src = src;
