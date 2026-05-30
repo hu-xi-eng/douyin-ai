@@ -69,10 +69,105 @@
     global.GameState = GameState;
 
     /* ============================================================
+     * 3.1 分数 → 称号 / 提示语 映射库
+     *  四档区间（含边界），每档配多条治愈系文案
+     * ============================================================ */
+    var TIER_CONFIG = [
+        {
+            min: 0, max: 30,
+            title: '声音小白',
+            tips: [
+                '没关系呀，今天的厨房悄悄睡着了～',
+                '第一次嘛，让耳朵慢慢醒过来就好啦',
+                '别着急，听觉是慢慢长出来的小芽',
+                '没听清也没关系，再煮一壶茶慢慢来～',
+                '今天的小耳朵在偷懒，明天再战一回吧'
+            ]
+        },
+        {
+            min: 31, max: 60,
+            title: '听觉新手',
+            tips: [
+                '你已经听见厨房在说话啦～',
+                '不错哦，再多一点点专注就更棒啦',
+                '厨房里飘出来的声音，被你接住了一半呢',
+                '半数答对，比昨天的自己又前进了一步',
+                '耳朵正在悄悄苏醒，继续加油呀～'
+            ]
+        },
+        {
+            min: 61, max: 85,
+            title: '声音达人',
+            tips: [
+                '你的耳朵会发光，厨房都被你听透啦',
+                '厉害呀，连水龙头的小水滴都没逃过你',
+                '厨房的悄悄话，被你听得清清楚楚呢',
+                '大部分声音都被你温柔地接住啦',
+                '哇，你和这个小厨房很合拍喔～'
+            ]
+        },
+        {
+            min: 86, max: 100,
+            title: '声音猎手',
+            tips: [
+                '你就是传说中的厨房耳朵，太强啦！',
+                '哇，连最细的声音都被你温柔捕捉啦～',
+                '满满的灵感和耳力，今天就是大厨日！',
+                '安静的厨房在和你说悄悄话，被你全部记住啦',
+                '厉害到让小锅铲都想给你鼓掌～'
+            ]
+        }
+    ];
+
+    /* ============================================================
      * 工具函数
      * ============================================================ */
     function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
     function $(id) { return document.getElementById(id); }
+    function randomFrom(arr) {
+        if (!arr || !arr.length) return '';
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    /* ============================================================
+     * 分数 → 档位查找
+     * ============================================================ */
+    function findTier(score) {
+        var s = clamp(score | 0, 0, 100);
+        for (var i = 0; i < TIER_CONFIG.length; i++) {
+            var t = TIER_CONFIG[i];
+            if (s >= t.min && s <= t.max) return t;
+        }
+        return TIER_CONFIG[0];
+    }
+
+    /* ============================================================
+     * 核心：根据分数返回称号 + 随机提示语
+     *  - 写入 GameState
+     *  - 触发 renderResultInfo() 完成页面渲染
+     * ============================================================ */
+    function getTitleAndTips(score) {
+        var s = clamp(score | 0, 0, 100);
+        var tier = findTier(s);
+        var result = {
+            title: tier.title,
+            tips: randomFrom(tier.tips)
+        };
+        GameState.score = s;
+        GameState.title = result.title;
+        GameState.tips  = result.tips;
+        renderResultInfo();
+        return result;
+    }
+
+    /* ============================================================
+     * 结果信息统一渲染：分数 + 称号 + 提示语
+     * ============================================================ */
+    function renderResultInfo() {
+        renderScore(GameState.score);
+        renderTitle(GameState.title);
+        renderTips(GameState.tips);
+    }
 
     /* ============================================================
      * 渲染：分数（数字滚动 + 进度条 + 星级）
@@ -210,24 +305,29 @@
     }
 
     /* ============================================================
-     * 数据绑定 + 渲染入口
+     * 数据绑定入口：
+     *  - score / similarity / selectedIds 由调用方提供
+     *  - title / tips 由 getTitleAndTips(score) 按档位自动派生
+     *  - 调用方亦可显式传入 title / tips 覆盖
      * ============================================================ */
     function applyState(state) {
-        // 写入全局状态
         GameState.score       = clamp(state.score      | 0, 0, 100);
         GameState.similarity  = clamp(state.similarity | 0, 0, 100);
-        GameState.title       = state.title || '';
-        GameState.tips        = state.tips  || '';
         GameState.selectedIds = (state.selectedIds || []).slice();
 
-        // 触发各模块渲染
-        renderTitle(GameState.title);
-        renderTips(GameState.tips);
+        // 物品列表先行渲染
         renderSelectedItems(GameState.selectedIds);
-        // 得分动画稍微延迟，让进场更有节奏
-        setTimeout(function () { renderScore(GameState.score); }, 180);
 
-        // similarity 暂未独占 UI 模块，先在控制台输出，方便联调验证
+        // 派生称号 + 提示语并渲染（含分数动画）
+        if (state.title || state.tips) {
+            // 显式覆盖
+            GameState.title = state.title || findTier(GameState.score).title;
+            GameState.tips  = state.tips  || randomFrom(findTier(GameState.score).tips);
+            setTimeout(renderResultInfo, 180);
+        } else {
+            setTimeout(function () { getTitleAndTips(GameState.score); }, 180);
+        }
+
         console.log('[GameState]', JSON.parse(JSON.stringify(GameState)));
     }
 
@@ -241,14 +341,18 @@
         applyState({
             score:       86,
             similarity:  92,
-            title:       '颠勺小能手',
-            tips:        '差一点就满分啦，再接再厉～',
             selectedIds: SELECTED_IDS
+            // title / tips 不传 → 由分数自动派生（声音猎手 + 随机一条治愈系提示）
         });
     }
 
-    // 暴露给业务侧：可在控制台或后续模块直接调用 GameState.update({...})
-    GameState.update = applyState;
+    // 暴露给业务侧：
+    //  - GameState.update(state)         一次性写入全部字段并渲染
+    //  - GameState.getTitleAndTips(s)    仅根据分数派生称号 + 提示语并渲染
+    //  - GameState.renderResultInfo()    用当前状态强制重渲
+    GameState.update            = applyState;
+    GameState.getTitleAndTips   = getTitleAndTips;
+    GameState.renderResultInfo  = renderResultInfo;
 
     global.addEventListener('resize', handleResize);
     global.addEventListener('orientationchange', function () { setTimeout(handleResize, 200); });
