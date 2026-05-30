@@ -60,9 +60,9 @@
     aspect-ratio: 9 / 16;
     display: flex;
     flex-direction: column;
-    /* 厨房插画背景 —— 文件放在 web 根目录的 /ending.jpg
+    /* 厨房插画背景 —— 与 index.html 同级目录的 ending.jpg
        严格按规范，不写 background-color，避免覆盖背景图 */
-    background-image: url('/ending.jpg');
+    background-image: url('./ending.jpg');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
