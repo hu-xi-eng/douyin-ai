@@ -1,0 +1,273 @@
+/* ===== 舞台：强制 9:16 居中，黑色信箱 ===== */
+.stage {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    overflow: hidden;
+}
+
+/*
+ * 9:16 比例容器。
+ * 使用 aspect-ratio 配合 max 限制，保证：
+ *  - 屏幕较高（高 > 宽 * 16/9）时按宽度撑满，高度由 aspect-ratio 推算；
+ *  - 屏幕较矮（高 < 宽 * 16/9）时按高度撑满，宽度由 aspect-ratio 推算。
+ */
+.game-page {
+    position: relative;
+    width: 100vw;
+    height: calc(100vw * 16 / 9);
+    max-height: 100vh;
+    max-width: calc(100vh * 9 / 16);
+    aspect-ratio: 9 / 16;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #ffe8c2 0%, #ffd1d1 55%, #f7b5d4 100%);
+    overflow: hidden;
+    color: #3a2a1a;
+    /* 以容器宽度为基准，1vw 内部基准 ≈ 容器宽度 / 100 */
+    font-size: 3.6vmin;
+}
+
+/* ===== 模块通用 ===== */
+.section {
+    flex: none;
+    width: 100%;
+    padding: 0 4%;
+}
+
+/* 1. 标题区 */
+.section-title {
+    padding-top: 4%;
+    padding-bottom: 2%;
+    text-align: center;
+}
+
+.title-main {
+    font-size: 5.6vmin;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #d63a55;
+    text-shadow: 0 0.4vmin 0 #fff;
+}
+
+.title-sub {
+    margin-top: 0.6vmin;
+    font-size: 3vmin;
+    color: #8a5a3b;
+    opacity: 0.85;
+}
+
+/* 2. 双图对比区 */
+.section-compare {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 2.5vmin;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    flex: 0 0 auto;
+    height: 28%;
+}
+
+.compare-item {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.compare-label {
+    text-align: center;
+    font-size: 2.8vmin;
+    color: #7a4b2d;
+    margin-bottom: 1vmin;
+    font-weight: 600;
+}
+
+.canvas-wrap {
+    flex: 1 1 auto;
+    position: relative;
+    width: 100%;
+    border-radius: 2vmin;
+    background: #fff8ec;
+    border: 0.4vmin solid #f3c98a;
+    box-shadow: 0 0.8vmin 1.6vmin rgba(160, 80, 40, 0.18);
+    overflow: hidden;
+}
+
+.canvas-wrap canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.compare-divider {
+    flex: 0 0 0.4vmin;
+    align-self: center;
+    height: 60%;
+    background: rgba(214, 58, 85, 0.35);
+    border-radius: 1vmin;
+}
+
+/* 3. 得分展示区 */
+.section-score {
+    text-align: center;
+    padding-top: 1.5%;
+    padding-bottom: 1%;
+}
+
+.score-label {
+    font-size: 2.8vmin;
+    color: #7a4b2d;
+}
+
+.score-value {
+    margin-top: 0.4vmin;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6vmin;
+    color: #d63a55;
+}
+
+.score-number {
+    font-size: 8vmin;
+    font-weight: 800;
+    line-height: 1;
+    text-shadow: 0 0.4vmin 0 #fff;
+}
+
+.score-unit {
+    font-size: 3.2vmin;
+    font-weight: 600;
+}
+
+/* 4. 称号标签区 */
+.section-medal {
+    text-align: center;
+    padding-top: 0.5%;
+    padding-bottom: 1.5%;
+}
+
+.medal-tag {
+    display: inline-block;
+    padding: 1vmin 3.5vmin;
+    font-size: 3vmin;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #ff8a5b 0%, #d63a55 100%);
+    border-radius: 999px;
+    box-shadow: 0 0.6vmin 1.2vmin rgba(214, 58, 85, 0.35);
+}
+
+/* 5. 选中物品列表区 */
+.section-items {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+}
+
+.items-title {
+    font-size: 2.8vmin;
+    color: #7a4b2d;
+    margin-bottom: 1vmin;
+    font-weight: 600;
+}
+
+.items-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.6vmin;
+    overflow: hidden;
+}
+
+.items-list .item {
+    aspect-ratio: 1 / 1;
+    background: #fff8ec;
+    border: 0.3vmin solid #f3c98a;
+    border-radius: 1.6vmin;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4vmin;
+    color: #7a4b2d;
+    box-shadow: 0 0.4vmin 0.8vmin rgba(160, 80, 40, 0.12);
+}
+
+/* 6. 趣味提示语区 */
+.section-tip {
+    text-align: center;
+    padding-top: 1%;
+    padding-bottom: 1.5%;
+}
+
+.tip-text {
+    display: inline-block;
+    padding: 1.2vmin 2.4vmin;
+    font-size: 2.8vmin;
+    color: #7a4b2d;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 1.2vmin;
+    line-height: 1.4;
+}
+
+/* 7. 底部按钮区 */
+.section-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3vmin;
+    padding-top: 1.5%;
+    padding-bottom: 4%;
+}
+
+.btn {
+    flex: 1 1 0;
+    height: 7vmin;
+    min-height: 44px;
+    border-radius: 999px;
+    font-size: 3.2vmin;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    transition: transform 0.08s ease, opacity 0.15s ease;
+}
+
+.btn:active {
+    transform: scale(0.96);
+    opacity: 0.9;
+}
+
+.btn-primary {
+    color: #fff;
+    background: linear-gradient(135deg, #ff8a5b 0%, #d63a55 100%);
+    box-shadow: 0 0.8vmin 1.6vmin rgba(214, 58, 85, 0.4);
+}
+
+.btn-secondary {
+    color: #d63a55;
+    background: #fff;
+    box-shadow: 0 0.6vmin 1.2vmin rgba(160, 80, 40, 0.18);
+}
+
+/* ===== 小屏适配兜底 ===== */
+@media (max-aspect-ratio: 9/16) {
+    .game-page {
+        width: 100vw;
+        height: calc(100vw * 16 / 9);
+    }
+}
+
+@media (min-aspect-ratio: 9/16) {
+    .game-page {
+        height: 100vh;
+        width: calc(100vh * 9 / 16);
+    }
+}

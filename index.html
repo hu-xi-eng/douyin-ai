@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no, email=no, address=no">
+    <meta name="full-screen" content="yes">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>厨房复刻挑战 - 结算</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="stage" id="stage">
+        <div class="game-page" id="gamePage">
+
+            <!-- 1. 标题区 -->
+            <header class="section section-title" id="sectionTitle">
+                <h1 class="title-main">厨房复刻挑战</h1>
+                <p class="title-sub">本轮结算</p>
+            </header>
+
+            <!-- 2. 双图对比区（Canvas 渲染） -->
+            <section class="section section-compare" id="sectionCompare">
+                <div class="compare-item">
+                    <div class="compare-label">原始厨房</div>
+                    <div class="canvas-wrap">
+                        <canvas class="canvas-target" id="canvasOriginal"></canvas>
+                    </div>
+                </div>
+                <div class="compare-divider"></div>
+                <div class="compare-item">
+                    <div class="compare-label">你的复刻</div>
+                    <div class="canvas-wrap">
+                        <canvas class="canvas-player" id="canvasPlayer"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. 得分展示区 -->
+            <section class="section section-score" id="sectionScore">
+                <div class="score-label">本轮得分</div>
+                <div class="score-value">
+                    <span class="score-number" id="scoreNumber">0</span>
+                    <span class="score-unit">分</span>
+                </div>
+            </section>
+
+            <!-- 4. 称号标签区 -->
+            <section class="section section-medal" id="sectionMedal">
+                <span class="medal-tag" id="medalTag">厨房新手</span>
+            </section>
+
+            <!-- 5. 选中物品列表区 -->
+            <section class="section section-items" id="sectionItems">
+                <div class="items-title">本轮选中物品</div>
+                <ul class="items-list" id="itemsList">
+                    <!-- 物品由 JS 渲染 -->
+                </ul>
+            </section>
+
+            <!-- 6. 趣味提示语区 -->
+            <section class="section section-tip" id="sectionTip">
+                <p class="tip-text" id="tipText">继续努力，下一轮你就是大厨啦！</p>
+            </section>
+
+            <!-- 7. 底部按钮区 -->
+            <footer class="section section-actions" id="sectionActions">
+                <button class="btn btn-secondary" id="btnShare" type="button">分享</button>
+                <button class="btn btn-primary" id="btnRetry" type="button">再来一局</button>
+            </footer>
+
+        </div>
+    </div>
+
+    <script src="js/canvas.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
