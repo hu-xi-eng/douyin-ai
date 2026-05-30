@@ -1,4 +1,48 @@
-/* ===== 舞台：强制 9:16 居中，黑色信箱 ===== */
+/* ===========================================================
+ * 「声迹」结算页样式
+ * 视觉对齐：暖色卡通厨房风格（橙黄主调 + 奶油色卡片 + 深棕描边）
+ * =========================================================== */
+
+/* ---- 全局调色板（局部 CSS 变量） ---- */
+.game-page {
+    --c-bg-1: #ffe9bf;
+    --c-bg-2: #ffd6a0;
+    --c-bg-3: #ffc2a0;
+
+    --c-cream: #fff5e0;
+    --c-cream-2: #fff8ec;
+    --c-cream-3: #fff0d2;
+
+    --c-orange: #ff9a3c;
+    --c-orange-deep: #ff7a1c;
+    --c-yellow: #ffd166;
+    --c-yellow-deep: #ffb73a;
+
+    --c-brown: #5a3520;
+    --c-brown-2: #7a4b2d;
+    --c-brown-line: #3a2113;
+    --c-wood: #b56a3a;
+    --c-wood-deep: #8a4a26;
+
+    --c-red: #e85a3c;
+    --c-green: #6cc04a;
+    --c-blue: #5aa8e8;
+    --c-purple: #a884e0;
+
+    --c-star: #ffc83c;
+    --c-star-off: #e3d3b8;
+
+    --r-lg: 2.4vmin;
+    --r-md: 1.6vmin;
+    --r-sm: 1vmin;
+
+    --shadow-card: 0 0.8vmin 0 rgba(140, 70, 30, 0.18),
+                   0 1.4vmin 2.4vmin rgba(140, 70, 30, 0.16);
+    --shadow-btn:  0 0.8vmin 0 rgba(140, 70, 30, 0.25),
+                   0 1.2vmin 2vmin rgba(255, 120, 40, 0.35);
+}
+
+/* ===== 舞台：9:16 居中，黑色信箱 ===== */
 .stage {
     position: fixed;
     inset: 0;
@@ -7,16 +51,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000;
+    background: #1a0f0a;
     overflow: hidden;
 }
 
-/*
- * 9:16 比例容器。
- * 使用 aspect-ratio 配合 max 限制，保证：
- *  - 屏幕较高（高 > 宽 * 16/9）时按宽度撑满，高度由 aspect-ratio 推算；
- *  - 屏幕较矮（高 < 宽 * 16/9）时按高度撑满，宽度由 aspect-ratio 推算。
- */
 .game-page {
     position: relative;
     width: 100vw;
@@ -26,52 +64,135 @@
     aspect-ratio: 9 / 16;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(180deg, #ffe8c2 0%, #ffd1d1 55%, #f7b5d4 100%);
+    background:
+        radial-gradient(120% 60% at 50% 0%, rgba(255, 255, 255, 0.5) 0%, transparent 70%),
+        linear-gradient(180deg, var(--c-bg-1) 0%, var(--c-bg-2) 55%, var(--c-bg-3) 100%);
     overflow: hidden;
-    color: #3a2a1a;
-    /* 以容器宽度为基准，1vw 内部基准 ≈ 容器宽度 / 100 */
+    color: var(--c-brown);
     font-size: 3.6vmin;
 }
 
-/* ===== 模块通用 ===== */
+/* 顶部装饰光斑 */
+.game-page::before {
+    content: "";
+    position: absolute;
+    top: -8%;
+    left: -10%;
+    width: 60%;
+    height: 30%;
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.5), transparent 70%);
+    pointer-events: none;
+}
+
+/* ===== 通用模块 ===== */
 .section {
     flex: none;
     width: 100%;
-    padding: 0 4%;
+    padding: 0 4.5%;
+    position: relative;
+    z-index: 1;
 }
 
-/* 1. 标题区 */
+/* ===========================================================
+ * 1. 标题区
+ * =========================================================== */
 .section-title {
     padding-top: 4%;
-    padding-bottom: 2%;
+    padding-bottom: 1.6%;
     text-align: center;
 }
 
+.title-wrap {
+    position: relative;
+    display: inline-block;
+    padding: 0 6vmin;
+}
+
+.title-hat {
+    position: absolute;
+    top: -3vmin;
+    left: 50%;
+    transform: translateX(-50%) rotate(-8deg);
+    width: 9vmin;
+    height: 7vmin;
+    filter: drop-shadow(0 0.4vmin 0 rgba(140, 70, 30, 0.25));
+    z-index: 2;
+}
+.title-hat svg { width: 100%; height: 100%; display: block; }
+
+.title-note {
+    position: absolute;
+    top: 0.5vmin;
+    font-size: 4.4vmin;
+    color: var(--c-orange-deep);
+    font-weight: 900;
+    text-shadow: 0 0.3vmin 0 #fff;
+    z-index: 1;
+}
+.title-note-l { left: -1vmin; transform: rotate(-12deg); }
+.title-note-r { right: -1vmin; transform: rotate(14deg); color: var(--c-yellow-deep); }
+
 .title-main {
-    font-size: 5.6vmin;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: #d63a55;
-    text-shadow: 0 0.4vmin 0 #fff;
+    position: relative;
+    font-size: 7.4vmin;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    color: #fff3a8;
+    background: linear-gradient(180deg, #fff0a0 0%, var(--c-yellow) 40%, var(--c-orange) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0.5vmin var(--c-brown-line);
+    paint-order: stroke fill;
+    filter: drop-shadow(0 0.6vmin 0 var(--c-wood-deep));
 }
 
 .title-sub {
-    margin-top: 0.6vmin;
-    font-size: 3vmin;
-    color: #8a5a3b;
-    opacity: 0.85;
+    margin-top: 1.6vmin;
+    display: inline-block;
+    padding: 0.8vmin 3vmin;
+    background: linear-gradient(180deg, var(--c-wood) 0%, var(--c-wood-deep) 100%);
+    border-radius: 1.4vmin;
+    border: 0.35vmin solid var(--c-brown-line);
+    box-shadow: 0 0.5vmin 0 rgba(0, 0, 0, 0.18);
+    position: relative;
+}
+.title-sub::before,
+.title-sub::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 1.2vmin;
+    height: 1.2vmin;
+    border-radius: 50%;
+    background: var(--c-yellow-deep);
+    border: 0.3vmin solid var(--c-brown-line);
+    transform: translateY(-50%);
+}
+.title-sub::before { left: 0.8vmin; }
+.title-sub::after  { right: 0.8vmin; }
+
+.title-sub-text {
+    font-size: 2.6vmin;
+    font-weight: 700;
+    color: #fff5e0;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0.2vmin 0 rgba(0, 0, 0, 0.25);
 }
 
-/* 2. 双图对比区 */
+/* ===========================================================
+ * 2. 双图对比区
+ * =========================================================== */
 .section-compare {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
-    gap: 2.5vmin;
+    gap: 1.8vmin;
     padding-top: 2%;
-    padding-bottom: 2%;
+    padding-bottom: 1.6%;
     flex: 0 0 auto;
-    height: 28%;
+    height: 26%;
 }
 
 .compare-item {
@@ -82,182 +203,387 @@
 }
 
 .compare-label {
-    text-align: center;
-    font-size: 2.8vmin;
-    color: #7a4b2d;
-    margin-bottom: 1vmin;
-    font-weight: 600;
+    align-self: center;
+    margin-bottom: -1.2vmin;
+    padding: 0.6vmin 2.2vmin;
+    font-size: 2.4vmin;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(180deg, var(--c-blue) 0%, #4090d8 100%);
+    border: 0.3vmin solid var(--c-brown-line);
+    border-radius: 999px;
+    box-shadow: 0 0.4vmin 0 rgba(0, 0, 0, 0.18);
+    position: relative;
+    z-index: 2;
+    letter-spacing: 0.04em;
+}
+.compare-label-mine {
+    background: linear-gradient(180deg, var(--c-orange) 0%, var(--c-orange-deep) 100%);
 }
 
 .canvas-wrap {
     flex: 1 1 auto;
     position: relative;
     width: 100%;
-    border-radius: 2vmin;
-    background: #fff8ec;
-    border: 0.4vmin solid #f3c98a;
-    box-shadow: 0 0.8vmin 1.6vmin rgba(160, 80, 40, 0.18);
+    border-radius: var(--r-md);
+    background: var(--c-cream-2);
+    border: 0.5vmin solid var(--c-brown-line);
+    box-shadow: var(--shadow-card);
     overflow: hidden;
+}
+
+.canvas-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: calc(var(--r-md) - 0.5vmin);
+    border: 0.2vmin solid rgba(255, 255, 255, 0.6);
+    pointer-events: none;
 }
 
 .canvas-wrap canvas {
     width: 100%;
     height: 100%;
+    display: block;
 }
 
-.compare-divider {
-    flex: 0 0 0.4vmin;
+.compare-vs {
     align-self: center;
-    height: 60%;
-    background: rgba(214, 58, 85, 0.35);
-    border-radius: 1vmin;
+    flex: 0 0 auto;
+    font-size: 3.4vmin;
+    font-weight: 900;
+    color: #fff;
+    background: linear-gradient(180deg, var(--c-red) 0%, #c84020 100%);
+    border: 0.35vmin solid var(--c-brown-line);
+    width: 6.4vmin;
+    height: 6.4vmin;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0.5vmin 0 rgba(0, 0, 0, 0.2);
+    text-shadow: 0 0.2vmin 0 rgba(0, 0, 0, 0.3);
+    transform: rotate(-8deg);
 }
 
-/* 3. 得分展示区 */
+/* ===========================================================
+ * 3. 得分展示区
+ * =========================================================== */
 .section-score {
     text-align: center;
-    padding-top: 1.5%;
+    padding-top: 1.6%;
     padding-bottom: 1%;
 }
 
 .score-label {
-    font-size: 2.8vmin;
-    color: #7a4b2d;
+    font-size: 2.6vmin;
+    font-weight: 700;
+    color: var(--c-brown-2);
+    letter-spacing: 0.06em;
 }
 
 .score-value {
     margin-top: 0.4vmin;
     display: inline-flex;
     align-items: baseline;
-    gap: 0.6vmin;
-    color: #d63a55;
+    gap: 0.8vmin;
+    line-height: 1;
 }
 
 .score-number {
-    font-size: 8vmin;
-    font-weight: 800;
+    font-size: 11vmin;
+    font-weight: 900;
     line-height: 1;
-    text-shadow: 0 0.4vmin 0 #fff;
+    color: var(--c-yellow);
+    background: linear-gradient(180deg, #fff3a8 0%, var(--c-yellow) 45%, var(--c-orange) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0.4vmin var(--c-brown-line);
+    paint-order: stroke fill;
+    filter: drop-shadow(0 0.5vmin 0 var(--c-wood-deep));
+    letter-spacing: 0.02em;
 }
 
 .score-unit {
-    font-size: 3.2vmin;
-    font-weight: 600;
+    font-size: 3.4vmin;
+    font-weight: 800;
+    color: var(--c-brown);
+    text-shadow: 0 0.2vmin 0 #fff;
 }
 
-/* 4. 称号标签区 */
+.score-stars {
+    margin-top: 0.4vmin;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8vmin;
+}
+
+.star {
+    width: 3.2vmin;
+    height: 3.2vmin;
+    background: var(--c-star-off);
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z'/></svg>") center/contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z'/></svg>") center/contain no-repeat;
+    filter: drop-shadow(0 0.2vmin 0 rgba(140, 70, 30, 0.25));
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+.star.on {
+    background: var(--c-star);
+    transform: scale(1.08);
+}
+
+.score-bar {
+    margin: 1.2vmin auto 0;
+    width: 70%;
+    height: 1.6vmin;
+    background: rgba(140, 70, 30, 0.15);
+    border: 0.25vmin solid var(--c-brown-line);
+    border-radius: 999px;
+    overflow: hidden;
+    box-shadow: inset 0 0.3vmin 0.4vmin rgba(140, 70, 30, 0.2);
+}
+.score-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--c-yellow) 0%, var(--c-orange) 60%, var(--c-orange-deep) 100%);
+    border-radius: 999px;
+    transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: inset 0 0.3vmin 0 rgba(255, 255, 255, 0.45);
+}
+
+/* ===========================================================
+ * 4. 称号标签区
+ * =========================================================== */
 .section-medal {
     text-align: center;
-    padding-top: 0.5%;
-    padding-bottom: 1.5%;
+    padding-top: 1.2%;
+    padding-bottom: 1.2%;
 }
 
 .medal-tag {
-    display: inline-block;
-    padding: 1vmin 3.5vmin;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8vmin;
+    padding: 1.1vmin 3.4vmin;
     font-size: 3vmin;
-    font-weight: 600;
+    font-weight: 800;
     color: #fff;
-    background: linear-gradient(135deg, #ff8a5b 0%, #d63a55 100%);
+    background: linear-gradient(180deg, var(--c-orange) 0%, var(--c-orange-deep) 100%);
+    border: 0.35vmin solid var(--c-brown-line);
     border-radius: 999px;
-    box-shadow: 0 0.6vmin 1.2vmin rgba(214, 58, 85, 0.35);
+    box-shadow:
+        inset 0 0.6vmin 0 rgba(255, 255, 255, 0.35),
+        0 0.6vmin 0 rgba(140, 70, 30, 0.3),
+        0 1vmin 1.6vmin rgba(255, 120, 40, 0.35);
+    text-shadow: 0 0.2vmin 0 rgba(0, 0, 0, 0.25);
+    letter-spacing: 0.06em;
 }
+.medal-icon { font-size: 3.4vmin; line-height: 1; }
 
-/* 5. 选中物品列表区 */
+/* ===========================================================
+ * 5. 选中物品列表区
+ * =========================================================== */
 .section-items {
     flex: 1 1 auto;
     min-height: 0;
     display: flex;
     flex-direction: column;
-    padding-top: 1.5%;
-    padding-bottom: 1.5%;
+    padding-top: 1.2%;
+    padding-bottom: 1.2%;
+}
+
+.items-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1vmin;
+    padding: 0 0.5vmin;
 }
 
 .items-title {
     font-size: 2.8vmin;
-    color: #7a4b2d;
-    margin-bottom: 1vmin;
-    font-weight: 600;
+    font-weight: 800;
+    color: var(--c-brown);
+    position: relative;
+    padding-left: 1.8vmin;
+}
+.items-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0.8vmin;
+    height: 2.4vmin;
+    background: linear-gradient(180deg, var(--c-orange) 0%, var(--c-orange-deep) 100%);
+    border-radius: 0.4vmin;
 }
 
-.items-list {
+.items-count {
+    font-size: 2.2vmin;
+    font-weight: 700;
+    color: var(--c-brown-2);
+    background: rgba(255, 255, 255, 0.55);
+    padding: 0.3vmin 1.2vmin;
+    border-radius: 999px;
+    border: 0.2vmin solid rgba(140, 70, 30, 0.25);
+}
+
+.items-scroll {
     flex: 1 1 auto;
     min-height: 0;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.6vmin;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 1vmin 0.5vmin;
+    /* 隐藏滚动条 */
+    scrollbar-width: none;
+}
+.items-scroll::-webkit-scrollbar { display: none; }
+
+.items-list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2vmin;
+    height: 100%;
+    align-items: stretch;
 }
 
 .items-list .item {
-    aspect-ratio: 1 / 1;
-    background: #fff8ec;
-    border: 0.3vmin solid #f3c98a;
-    border-radius: 1.6vmin;
+    flex: 0 0 auto;
+    width: 16vmin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2vmin 0.8vmin;
+    background: linear-gradient(180deg, var(--c-cream) 0%, var(--c-cream-3) 100%);
+    border: 0.35vmin solid var(--c-brown-line);
+    border-radius: var(--r-md);
+    box-shadow:
+        inset 0 0.6vmin 0 rgba(255, 255, 255, 0.6),
+        0 0.6vmin 0 rgba(140, 70, 30, 0.2);
+}
+
+.item-icon {
+    width: 9.5vmin;
+    height: 9.5vmin;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.4vmin;
-    color: #7a4b2d;
-    box-shadow: 0 0.4vmin 0.8vmin rgba(160, 80, 40, 0.12);
+    font-size: 6vmin;
+    line-height: 1;
+    background: #fff;
+    border: 0.3vmin solid rgba(140, 70, 30, 0.3);
+    border-radius: var(--r-sm);
+    box-shadow: inset 0 0.3vmin 0 rgba(255, 255, 255, 0.8),
+                inset 0 -0.4vmin 0.6vmin rgba(140, 70, 30, 0.1);
 }
 
-/* 6. 趣味提示语区 */
+.item-name {
+    margin-top: 0.6vmin;
+    font-size: 2.2vmin;
+    font-weight: 700;
+    color: var(--c-brown);
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ===========================================================
+ * 6. 趣味提示语区
+ * =========================================================== */
 .section-tip {
     text-align: center;
-    padding-top: 1%;
-    padding-bottom: 1.5%;
+    padding-top: 0.8%;
+    padding-bottom: 1.2%;
 }
 
 .tip-text {
     display: inline-block;
-    padding: 1.2vmin 2.4vmin;
-    font-size: 2.8vmin;
-    color: #7a4b2d;
-    background: rgba(255, 255, 255, 0.55);
-    border-radius: 1.2vmin;
-    line-height: 1.4;
+    padding: 1.2vmin 2.8vmin;
+    font-size: 2.6vmin;
+    font-weight: 700;
+    color: var(--c-brown);
+    line-height: 1.6;
+    background: rgba(255, 255, 255, 0.65);
+    border: 0.3vmin dashed rgba(140, 70, 30, 0.4);
+    border-radius: 1.4vmin;
+    letter-spacing: 0.04em;
 }
 
-/* 7. 底部按钮区 */
+/* ===========================================================
+ * 7. 底部按钮区
+ * =========================================================== */
 .section-actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 3vmin;
-    padding-top: 1.5%;
-    padding-bottom: 4%;
+    gap: 2.4vmin;
+    padding-top: 1.2%;
+    padding-bottom: 4.5%;
 }
 
 .btn {
     flex: 1 1 0;
-    height: 7vmin;
     min-height: 44px;
+    height: 7.4vmin;
     border-radius: 999px;
-    font-size: 3.2vmin;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    transition: transform 0.08s ease, opacity 0.15s ease;
+    font-size: 3vmin;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    border: 0.4vmin solid var(--c-brown-line);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8vmin;
+    transition: transform 0.08s ease, box-shadow 0.12s ease, filter 0.12s ease;
 }
+.btn-icon { font-size: 3.2vmin; line-height: 1; }
+.btn-text { line-height: 1; }
 
 .btn:active {
-    transform: scale(0.96);
-    opacity: 0.9;
+    transform: translateY(0.4vmin);
+    filter: brightness(0.96);
 }
 
 .btn-primary {
     color: #fff;
-    background: linear-gradient(135deg, #ff8a5b 0%, #d63a55 100%);
-    box-shadow: 0 0.8vmin 1.6vmin rgba(214, 58, 85, 0.4);
+    background: linear-gradient(180deg, var(--c-orange) 0%, var(--c-orange-deep) 100%);
+    box-shadow:
+        inset 0 0.7vmin 0 rgba(255, 255, 255, 0.45),
+        0 0.8vmin 0 var(--c-wood-deep),
+        0 1.2vmin 2vmin rgba(255, 120, 40, 0.4);
+    text-shadow: 0 0.2vmin 0 rgba(0, 0, 0, 0.25);
+}
+.btn-primary:active {
+    box-shadow:
+        inset 0 0.4vmin 0 rgba(255, 255, 255, 0.35),
+        0 0.3vmin 0 var(--c-wood-deep),
+        0 0.6vmin 1vmin rgba(255, 120, 40, 0.35);
 }
 
 .btn-secondary {
-    color: #d63a55;
-    background: #fff;
-    box-shadow: 0 0.6vmin 1.2vmin rgba(160, 80, 40, 0.18);
+    color: var(--c-brown);
+    background: linear-gradient(180deg, var(--c-cream) 0%, var(--c-cream-3) 100%);
+    box-shadow:
+        inset 0 0.7vmin 0 rgba(255, 255, 255, 0.7),
+        0 0.8vmin 0 rgba(140, 70, 30, 0.3),
+        0 1.2vmin 2vmin rgba(140, 70, 30, 0.18);
+    text-shadow: 0 0.2vmin 0 rgba(255, 255, 255, 0.6);
+}
+.btn-secondary:active {
+    box-shadow:
+        inset 0 0.4vmin 0 rgba(255, 255, 255, 0.5),
+        0 0.3vmin 0 rgba(140, 70, 30, 0.3),
+        0 0.6vmin 1vmin rgba(140, 70, 30, 0.18);
 }
 
-/* ===== 小屏适配兜底 ===== */
+/* ===== 适配兜底 ===== */
 @media (max-aspect-ratio: 9/16) {
     .game-page {
         width: 100vw;

@@ -23,33 +23,73 @@
     // 屏蔽默认右键菜单
     document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
 
-    // ===== 模拟结算数据（后续可由真实数据替换）=====
+    // ===== 模拟结算数据（后续可由真实数据替换） =====
     var mockResult = {
         score: 86,
         medal: '颠勺小能手',
+        medalIcon: '👨‍🍳',
         tip: '差一点就满分啦，再接再厉～',
-        items: ['炒锅', '菜刀', '砧板', '青菜', '番茄', '鸡蛋', '酱油', '盐']
+        items: [
+            { icon: '🍳', name: '平底锅' },
+            { icon: '🔪', name: '菜刀' },
+            { icon: '🥘', name: '砂锅' },
+            { icon: '🫖', name: '水壶' },
+            { icon: '🍅', name: '番茄' },
+            { icon: '🥚', name: '鸡蛋' },
+            { icon: '🧂', name: '盐罐' },
+            { icon: '🥬', name: '青菜' },
+            { icon: '🧄', name: '大蒜' }
+        ]
     };
 
+    function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
     function renderScore(score) {
-        var el = document.getElementById('scoreNumber');
-        if (!el) return;
-        var target = Math.max(0, Math.min(100, score | 0));
-        var current = 0;
-        var step = Math.max(1, Math.ceil(target / 24));
-        var timer = setInterval(function () {
-            current += step;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            el.textContent = current;
-        }, 24);
+        var target = clamp(score | 0, 0, 100);
+        var numEl = document.getElementById('scoreNumber');
+        var barEl = document.getElementById('scoreBarFill');
+        var starsEl = document.getElementById('scoreStars');
+
+        // 数字滚动
+        if (numEl) {
+            var current = 0;
+            var step = Math.max(1, Math.ceil(target / 28));
+            var timer = setInterval(function () {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                numEl.textContent = current;
+            }, 24);
+        }
+
+        // 进度条
+        if (barEl) {
+            requestAnimationFrame(function () {
+                barEl.style.width = target + '%';
+            });
+        }
+
+        // 星级（每 20 分一颗星）
+        if (starsEl) {
+            var stars = starsEl.querySelectorAll('.star');
+            var lit = Math.round(target / 20);
+            stars.forEach(function (s, i) {
+                setTimeout(function () {
+                    if (i < lit) s.classList.add('on');
+                }, 120 + i * 90);
+            });
+        }
     }
 
-    function renderMedal(text) {
-        var el = document.getElementById('medalTag');
-        if (el) el.textContent = text;
+    function renderMedal(text, icon) {
+        var tag = document.getElementById('medalTag');
+        if (!tag) return;
+        var iconEl = tag.querySelector('.medal-icon');
+        var textEl = tag.querySelector('.medal-text');
+        if (iconEl && icon) iconEl.textContent = icon;
+        if (textEl) textEl.textContent = text;
     }
 
     function renderTip(text) {
@@ -59,29 +99,36 @@
 
     function renderItems(items) {
         var list = document.getElementById('itemsList');
+        var count = document.getElementById('itemsCount');
         if (!list) return;
         list.innerHTML = '';
-        items.forEach(function (name) {
+        items.forEach(function (it) {
             var li = document.createElement('li');
             li.className = 'item';
-            li.textContent = name;
+            var icon = document.createElement('div');
+            icon.className = 'item-icon';
+            icon.textContent = it.icon || '🍽️';
+            var name = document.createElement('div');
+            name.className = 'item-name';
+            name.textContent = it.name || '';
+            li.appendChild(icon);
+            li.appendChild(name);
             list.appendChild(li);
         });
+        if (count) count.textContent = '共 ' + items.length + ' 件';
     }
 
     function bindActions() {
         var btnRetry = document.getElementById('btnRetry');
-        var btnShare = document.getElementById('btnShare');
+        var btnHome = document.getElementById('btnHome');
         if (btnRetry) {
             btnRetry.addEventListener('click', function () {
-                // TODO: 接入再来一局逻辑
                 console.log('[settlement] retry');
             });
         }
-        if (btnShare) {
-            btnShare.addEventListener('click', function () {
-                // TODO: 接入分享逻辑
-                console.log('[settlement] share');
+        if (btnHome) {
+            btnHome.addEventListener('click', function () {
+                console.log('[settlement] home');
             });
         }
     }
@@ -89,7 +136,7 @@
     function initCanvases() {
         if (!window.KitchenCanvas) return;
         window.KitchenCanvas.init('canvasOriginal', '原始厨房');
-        window.KitchenCanvas.init('canvasPlayer', '你的复刻');
+        window.KitchenCanvas.init('canvasPlayer', '我的复刻');
     }
 
     function handleResize() {
@@ -97,12 +144,13 @@
     }
 
     function boot() {
-        renderScore(mockResult.score);
-        renderMedal(mockResult.medal);
+        renderMedal(mockResult.medal, mockResult.medalIcon);
         renderTip(mockResult.tip);
         renderItems(mockResult.items);
         bindActions();
         initCanvases();
+        // 得分动画稍微延迟，让进场更有节奏
+        setTimeout(function () { renderScore(mockResult.score); }, 180);
     }
 
     window.addEventListener('resize', handleResize);
