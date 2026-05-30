@@ -1,9 +1,9 @@
 /* ===========================================================
  * 「声迹」结算页样式
  * 视觉对齐：暖色卡通厨房风格（橙黄主调 + 奶油色卡片 + 深棕描边）
+ * 全部尺寸基于容器宽度 cqw，保证 9:16 容器内布局稳定
  * =========================================================== */
 
-/* ---- 全局调色板（局部 CSS 变量） ---- */
 .game-page {
     --c-bg-1: #ffe9bf;
     --c-bg-2: #ffd6a0;
@@ -12,6 +12,7 @@
     --c-cream: #fff5e0;
     --c-cream-2: #fff8ec;
     --c-cream-3: #fff0d2;
+    --c-paper: #fffbe8;
 
     --c-orange: #ff9a3c;
     --c-orange-deep: #ff7a1c;
@@ -25,21 +26,17 @@
     --c-wood-deep: #8a4a26;
 
     --c-red: #e85a3c;
-    --c-green: #6cc04a;
     --c-blue: #5aa8e8;
-    --c-purple: #a884e0;
 
     --c-star: #ffc83c;
     --c-star-off: #e3d3b8;
 
-    --r-lg: 2.4vmin;
-    --r-md: 1.6vmin;
-    --r-sm: 1vmin;
+    --r-lg: 3cqw;
+    --r-md: 2.4cqw;
+    --r-sm: 1.6cqw;
 
-    --shadow-card: 0 0.8vmin 0 rgba(140, 70, 30, 0.18),
-                   0 1.4vmin 2.4vmin rgba(140, 70, 30, 0.16);
-    --shadow-btn:  0 0.8vmin 0 rgba(140, 70, 30, 0.25),
-                   0 1.2vmin 2vmin rgba(255, 120, 40, 0.35);
+    --shadow-card: 0 1cqw 0 rgba(140, 70, 30, 0.18),
+                   0 2cqw 3cqw rgba(140, 70, 30, 0.16);
 }
 
 /* ===== 舞台：9:16 居中，黑色信箱 ===== */
@@ -69,10 +66,11 @@
         linear-gradient(180deg, var(--c-bg-1) 0%, var(--c-bg-2) 55%, var(--c-bg-3) 100%);
     overflow: hidden;
     color: var(--c-brown);
-    font-size: 3.6vmin;
+    /* 容器查询：所有 cqw / cqh 单位以本元素为基准 */
+    container-type: size;
+    container-name: page;
 }
 
-/* 顶部装饰光斑 */
 .game-page::before {
     content: "";
     position: absolute;
@@ -88,7 +86,7 @@
 .section {
     flex: none;
     width: 100%;
-    padding: 0 4.5%;
+    padding: 0 5cqw;
     position: relative;
     z-index: 1;
 }
@@ -97,65 +95,51 @@
  * 1. 标题区
  * =========================================================== */
 .section-title {
-    padding-top: 4%;
-    padding-bottom: 1.6%;
+    padding-top: 4cqw;
+    padding-bottom: 1.5cqw;
     text-align: center;
 }
 
 .title-wrap {
     position: relative;
     display: inline-block;
-    padding: 0 6vmin;
+    padding: 0 7cqw;
 }
-
-.title-hat {
-    position: absolute;
-    top: -3vmin;
-    left: 50%;
-    transform: translateX(-50%) rotate(-8deg);
-    width: 9vmin;
-    height: 7vmin;
-    filter: drop-shadow(0 0.4vmin 0 rgba(140, 70, 30, 0.25));
-    z-index: 2;
-}
-.title-hat svg { width: 100%; height: 100%; display: block; }
 
 .title-note {
     position: absolute;
-    top: 0.5vmin;
-    font-size: 4.4vmin;
-    color: var(--c-orange-deep);
+    top: 1cqw;
+    font-size: 6cqw;
     font-weight: 900;
-    text-shadow: 0 0.3vmin 0 #fff;
-    z-index: 1;
+    text-shadow: 0 0.4cqw 0 #fff;
+    line-height: 1;
 }
-.title-note-l { left: -1vmin; transform: rotate(-12deg); }
-.title-note-r { right: -1vmin; transform: rotate(14deg); color: var(--c-yellow-deep); }
+.title-note-l { left: -2cqw; transform: rotate(-12deg); color: var(--c-orange-deep); }
+.title-note-r { right: -2cqw; transform: rotate(14deg); color: var(--c-yellow-deep); }
 
 .title-main {
-    position: relative;
-    font-size: 7.4vmin;
+    font-size: 9cqw;
     font-weight: 900;
-    letter-spacing: 0.06em;
-    line-height: 1.1;
-    color: #fff3a8;
+    letter-spacing: 0.04em;
+    line-height: 1.05;
+    white-space: nowrap;
     background: linear-gradient(180deg, #fff0a0 0%, var(--c-yellow) 40%, var(--c-orange) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-text-stroke: 0.5vmin var(--c-brown-line);
+    -webkit-text-stroke: 0.7cqw var(--c-brown-line);
     paint-order: stroke fill;
-    filter: drop-shadow(0 0.6vmin 0 var(--c-wood-deep));
+    filter: drop-shadow(0 0.8cqw 0 var(--c-wood-deep));
 }
 
 .title-sub {
-    margin-top: 1.6vmin;
+    margin-top: 2cqw;
     display: inline-block;
-    padding: 0.8vmin 3vmin;
+    padding: 1cqw 4cqw;
     background: linear-gradient(180deg, var(--c-wood) 0%, var(--c-wood-deep) 100%);
-    border-radius: 1.4vmin;
-    border: 0.35vmin solid var(--c-brown-line);
-    box-shadow: 0 0.5vmin 0 rgba(0, 0, 0, 0.18);
+    border-radius: 1.8cqw;
+    border: 0.5cqw solid var(--c-brown-line);
+    box-shadow: 0 0.6cqw 0 rgba(0, 0, 0, 0.18);
     position: relative;
 }
 .title-sub::before,
@@ -163,107 +147,82 @@
     content: "";
     position: absolute;
     top: 50%;
-    width: 1.2vmin;
-    height: 1.2vmin;
+    width: 1.6cqw;
+    height: 1.6cqw;
     border-radius: 50%;
     background: var(--c-yellow-deep);
-    border: 0.3vmin solid var(--c-brown-line);
+    border: 0.4cqw solid var(--c-brown-line);
     transform: translateY(-50%);
 }
-.title-sub::before { left: 0.8vmin; }
-.title-sub::after  { right: 0.8vmin; }
+.title-sub::before { left: 1cqw; }
+.title-sub::after  { right: 1cqw; }
 
 .title-sub-text {
-    font-size: 2.6vmin;
+    font-size: 3.4cqw;
     font-weight: 700;
     color: #fff5e0;
-    letter-spacing: 0.05em;
-    text-shadow: 0 0.2vmin 0 rgba(0, 0, 0, 0.25);
+    letter-spacing: 0.06em;
+    text-shadow: 0 0.3cqw 0 rgba(0, 0, 0, 0.25);
 }
 
 /* ===========================================================
- * 2. 双图对比区
+ * 2. 单 Canvas 复刻厨房
  * =========================================================== */
-.section-compare {
-    display: flex;
-    align-items: stretch;
-    justify-content: space-between;
-    gap: 1.8vmin;
-    padding-top: 2%;
-    padding-bottom: 1.6%;
-    flex: 0 0 auto;
-    height: 26%;
-}
-
-.compare-item {
-    flex: 1 1 0;
+.section-canvas {
+    padding-top: 3cqw;
+    padding-bottom: 2cqw;
     display: flex;
     flex-direction: column;
-    min-width: 0;
+    align-items: center;
 }
 
-.compare-label {
-    align-self: center;
-    margin-bottom: -1.2vmin;
-    padding: 0.6vmin 2.2vmin;
-    font-size: 2.4vmin;
+.canvas-label-wrap {
+    margin-bottom: -2cqw;
+    z-index: 2;
+    position: relative;
+}
+
+.canvas-label {
+    display: inline-block;
+    padding: 1cqw 4cqw;
+    font-size: 3.4cqw;
     font-weight: 800;
     color: #fff;
-    background: linear-gradient(180deg, var(--c-blue) 0%, #4090d8 100%);
-    border: 0.3vmin solid var(--c-brown-line);
-    border-radius: 999px;
-    box-shadow: 0 0.4vmin 0 rgba(0, 0, 0, 0.18);
-    position: relative;
-    z-index: 2;
-    letter-spacing: 0.04em;
-}
-.compare-label-mine {
     background: linear-gradient(180deg, var(--c-orange) 0%, var(--c-orange-deep) 100%);
+    border: 0.5cqw solid var(--c-brown-line);
+    border-radius: 999px;
+    box-shadow:
+        inset 0 0.6cqw 0 rgba(255, 255, 255, 0.35),
+        0 0.6cqw 0 rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.08em;
+    text-shadow: 0 0.3cqw 0 rgba(0, 0, 0, 0.25);
+}
+
+.canvas-wrap-solo {
+    width: 84%;
+    height: 47cqw;
 }
 
 .canvas-wrap {
-    flex: 1 1 auto;
     position: relative;
-    width: 100%;
     border-radius: var(--r-md);
     background: var(--c-cream-2);
-    border: 0.5vmin solid var(--c-brown-line);
+    border: 0.6cqw solid var(--c-brown-line);
     box-shadow: var(--shadow-card);
     overflow: hidden;
 }
-
 .canvas-wrap::after {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: calc(var(--r-md) - 0.5vmin);
-    border: 0.2vmin solid rgba(255, 255, 255, 0.6);
+    border-radius: calc(var(--r-md) - 0.6cqw);
+    border: 0.3cqw solid rgba(255, 255, 255, 0.6);
     pointer-events: none;
 }
-
 .canvas-wrap canvas {
     width: 100%;
     height: 100%;
     display: block;
-}
-
-.compare-vs {
-    align-self: center;
-    flex: 0 0 auto;
-    font-size: 3.4vmin;
-    font-weight: 900;
-    color: #fff;
-    background: linear-gradient(180deg, var(--c-red) 0%, #c84020 100%);
-    border: 0.35vmin solid var(--c-brown-line);
-    width: 6.4vmin;
-    height: 6.4vmin;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0.5vmin 0 rgba(0, 0, 0, 0.2);
-    text-shadow: 0 0.2vmin 0 rgba(0, 0, 0, 0.3);
-    transform: rotate(-8deg);
 }
 
 /* ===========================================================
@@ -271,62 +230,61 @@
  * =========================================================== */
 .section-score {
     text-align: center;
-    padding-top: 1.6%;
-    padding-bottom: 1%;
+    padding-top: 2cqw;
+    padding-bottom: 1cqw;
 }
 
 .score-label {
-    font-size: 2.6vmin;
+    font-size: 3.2cqw;
     font-weight: 700;
     color: var(--c-brown-2);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
 }
 
 .score-value {
-    margin-top: 0.4vmin;
+    margin-top: 0.4cqw;
     display: inline-flex;
     align-items: baseline;
-    gap: 0.8vmin;
+    gap: 1cqw;
     line-height: 1;
 }
 
 .score-number {
-    font-size: 11vmin;
+    font-size: 13cqw;
     font-weight: 900;
     line-height: 1;
-    color: var(--c-yellow);
     background: linear-gradient(180deg, #fff3a8 0%, var(--c-yellow) 45%, var(--c-orange) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    -webkit-text-stroke: 0.4vmin var(--c-brown-line);
+    -webkit-text-stroke: 0.55cqw var(--c-brown-line);
     paint-order: stroke fill;
-    filter: drop-shadow(0 0.5vmin 0 var(--c-wood-deep));
+    filter: drop-shadow(0 0.7cqw 0 var(--c-wood-deep));
     letter-spacing: 0.02em;
 }
 
 .score-unit {
-    font-size: 3.4vmin;
+    font-size: 4.2cqw;
     font-weight: 800;
     color: var(--c-brown);
-    text-shadow: 0 0.2vmin 0 #fff;
+    text-shadow: 0 0.3cqw 0 #fff;
 }
 
 .score-stars {
-    margin-top: 0.4vmin;
+    margin-top: 0.8cqw;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.8vmin;
+    gap: 1.2cqw;
 }
 
 .star {
-    width: 3.2vmin;
-    height: 3.2vmin;
+    width: 4cqw;
+    height: 4cqw;
     background: var(--c-star-off);
     -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z'/></svg>") center/contain no-repeat;
             mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18.3 5.5 22l1.7-7.4-5.7-5 7.5-.7z'/></svg>") center/contain no-repeat;
-    filter: drop-shadow(0 0.2vmin 0 rgba(140, 70, 30, 0.25));
+    filter: drop-shadow(0 0.3cqw 0 rgba(140, 70, 30, 0.25));
     transition: background 0.2s ease, transform 0.2s ease;
 }
 .star.on {
@@ -335,14 +293,14 @@
 }
 
 .score-bar {
-    margin: 1.2vmin auto 0;
-    width: 70%;
-    height: 1.6vmin;
+    margin: 1.6cqw auto 0;
+    width: 72%;
+    height: 2.2cqw;
     background: rgba(140, 70, 30, 0.15);
-    border: 0.25vmin solid var(--c-brown-line);
+    border: 0.35cqw solid var(--c-brown-line);
     border-radius: 999px;
     overflow: hidden;
-    box-shadow: inset 0 0.3vmin 0.4vmin rgba(140, 70, 30, 0.2);
+    box-shadow: inset 0 0.4cqw 0.6cqw rgba(140, 70, 30, 0.2);
 }
 .score-bar-fill {
     width: 0%;
@@ -350,7 +308,7 @@
     background: linear-gradient(90deg, var(--c-yellow) 0%, var(--c-orange) 60%, var(--c-orange-deep) 100%);
     border-radius: 999px;
     transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: inset 0 0.3vmin 0 rgba(255, 255, 255, 0.45);
+    box-shadow: inset 0 0.4cqw 0 rgba(255, 255, 255, 0.45);
 }
 
 /* ===========================================================
@@ -358,29 +316,29 @@
  * =========================================================== */
 .section-medal {
     text-align: center;
-    padding-top: 1.2%;
-    padding-bottom: 1.2%;
+    padding-top: 1.5cqw;
+    padding-bottom: 1.5cqw;
 }
 
 .medal-tag {
     display: inline-flex;
     align-items: center;
-    gap: 0.8vmin;
-    padding: 1.1vmin 3.4vmin;
-    font-size: 3vmin;
+    gap: 1cqw;
+    padding: 1.4cqw 4cqw;
+    font-size: 3.6cqw;
     font-weight: 800;
     color: #fff;
     background: linear-gradient(180deg, var(--c-orange) 0%, var(--c-orange-deep) 100%);
-    border: 0.35vmin solid var(--c-brown-line);
+    border: 0.5cqw solid var(--c-brown-line);
     border-radius: 999px;
     box-shadow:
-        inset 0 0.6vmin 0 rgba(255, 255, 255, 0.35),
-        0 0.6vmin 0 rgba(140, 70, 30, 0.3),
-        0 1vmin 1.6vmin rgba(255, 120, 40, 0.35);
-    text-shadow: 0 0.2vmin 0 rgba(0, 0, 0, 0.25);
-    letter-spacing: 0.06em;
+        inset 0 0.8cqw 0 rgba(255, 255, 255, 0.35),
+        0 0.8cqw 0 rgba(140, 70, 30, 0.3),
+        0 1.4cqw 2cqw rgba(255, 120, 40, 0.35);
+    text-shadow: 0 0.3cqw 0 rgba(0, 0, 0, 0.25);
+    letter-spacing: 0.08em;
 }
-.medal-icon { font-size: 3.4vmin; line-height: 1; }
+.medal-icon { font-size: 4cqw; line-height: 1; }
 
 /* ===========================================================
  * 5. 选中物品列表区
@@ -390,24 +348,23 @@
     min-height: 0;
     display: flex;
     flex-direction: column;
-    padding-top: 1.2%;
-    padding-bottom: 1.2%;
+    padding-top: 1cqw;
+    padding-bottom: 1cqw;
 }
 
 .items-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1vmin;
-    padding: 0 0.5vmin;
+    margin-bottom: 1cqw;
 }
 
 .items-title {
-    font-size: 2.8vmin;
+    font-size: 3.4cqw;
     font-weight: 800;
     color: var(--c-brown);
     position: relative;
-    padding-left: 1.8vmin;
+    padding-left: 2.4cqw;
 }
 .items-title::before {
     content: "";
@@ -415,20 +372,20 @@
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 0.8vmin;
-    height: 2.4vmin;
+    width: 1cqw;
+    height: 3cqw;
     background: linear-gradient(180deg, var(--c-orange) 0%, var(--c-orange-deep) 100%);
-    border-radius: 0.4vmin;
+    border-radius: 0.5cqw;
 }
 
 .items-count {
-    font-size: 2.2vmin;
+    font-size: 2.8cqw;
     font-weight: 700;
     color: var(--c-brown-2);
     background: rgba(255, 255, 255, 0.55);
-    padding: 0.3vmin 1.2vmin;
+    padding: 0.4cqw 1.6cqw;
     border-radius: 999px;
-    border: 0.2vmin solid rgba(140, 70, 30, 0.25);
+    border: 0.25cqw solid rgba(140, 70, 30, 0.25);
 }
 
 .items-scroll {
@@ -437,8 +394,7 @@
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    padding: 1vmin 0.5vmin;
-    /* 隐藏滚动条 */
+    padding: 1.2cqw 0.6cqw;
     scrollbar-width: none;
 }
 .items-scroll::-webkit-scrollbar { display: none; }
@@ -446,40 +402,40 @@
 .items-list {
     display: flex;
     flex-wrap: nowrap;
-    gap: 2vmin;
+    gap: 2.4cqw;
     height: 100%;
     align-items: stretch;
 }
 
 .items-list .item {
     flex: 0 0 auto;
-    width: 16vmin;
+    width: 18cqw;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 1.2vmin 0.8vmin;
+    padding: 1.4cqw 1cqw;
     background: linear-gradient(180deg, var(--c-cream) 0%, var(--c-cream-3) 100%);
-    border: 0.35vmin solid var(--c-brown-line);
+    border: 0.45cqw solid var(--c-brown-line);
     border-radius: var(--r-md);
     box-shadow:
-        inset 0 0.6vmin 0 rgba(255, 255, 255, 0.6),
-        0 0.6vmin 0 rgba(140, 70, 30, 0.2);
+        inset 0 0.8cqw 0 rgba(255, 255, 255, 0.6),
+        0 0.8cqw 0 rgba(140, 70, 30, 0.2);
 }
 
 .item-icon {
-    width: 9.5vmin;
-    height: 9.5vmin;
+    width: 11cqw;
+    height: 11cqw;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 6vmin;
+    font-size: 7cqw;
     line-height: 1;
     background: #fff;
-    border: 0.3vmin solid rgba(140, 70, 30, 0.3);
+    border: 0.4cqw solid rgba(140, 70, 30, 0.3);
     border-radius: var(--r-sm);
-    box-shadow: inset 0 0.3vmin 0 rgba(255, 255, 255, 0.8),
-                inset 0 -0.4vmin 0.6vmin rgba(140, 70, 30, 0.1);
+    box-shadow: inset 0 0.4cqw 0 rgba(255, 255, 255, 0.8),
+                inset 0 -0.5cqw 0.8cqw rgba(140, 70, 30, 0.1);
     overflow: hidden;
 }
 .item-img {
@@ -490,8 +446,8 @@
 }
 
 .item-name {
-    margin-top: 0.6vmin;
-    font-size: 2.2vmin;
+    margin-top: 0.8cqw;
+    font-size: 2.6cqw;
     font-weight: 700;
     color: var(--c-brown);
     text-align: center;
@@ -502,25 +458,62 @@
 }
 
 /* ===========================================================
- * 6. 趣味提示语区
+ * 6. 趣味提示语区（便签纸条）
  * =========================================================== */
 .section-tip {
     text-align: center;
-    padding-top: 0.8%;
-    padding-bottom: 1.2%;
+    padding-top: 1.5cqw;
+    padding-bottom: 1.5cqw;
 }
 
-.tip-text {
+.tip-note {
     display: inline-block;
-    padding: 1.2vmin 2.8vmin;
-    font-size: 2.6vmin;
+    position: relative;
+    max-width: 92%;
+    padding: 3cqw 4.5cqw 2.6cqw;
+    background:
+        linear-gradient(180deg, var(--c-paper) 0%, #fff0d2 100%);
+    border: 0.5cqw dashed var(--c-brown-line);
+    border-radius: 2.4cqw;
+    box-shadow:
+        0 1cqw 0 rgba(140, 70, 30, 0.15),
+        0 1.6cqw 2.4cqw rgba(140, 70, 30, 0.14);
+    /* 微微倾斜，更像贴上去的便签 */
+    transform: rotate(-1.2deg);
+}
+
+/* 顶部胶带装饰 */
+.tip-tape {
+    position: absolute;
+    top: -1.4cqw;
+    left: 50%;
+    width: 16cqw;
+    height: 3cqw;
+    background: linear-gradient(180deg, rgba(255, 220, 130, 0.85), rgba(255, 200, 80, 0.85));
+    border-radius: 0.5cqw;
+    transform: translateX(-50%) rotate(-3deg);
+    box-shadow: 0 0.4cqw 0.6cqw rgba(140, 70, 30, 0.2);
+    z-index: 1;
+}
+.tip-tape::before,
+.tip-tape::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 0.6cqw;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+}
+.tip-tape::before { left: 25%; }
+.tip-tape::after  { left: 70%; }
+
+.tip-text {
+    font-size: 3.4cqw;
     font-weight: 700;
     color: var(--c-brown);
-    line-height: 1.6;
-    background: rgba(255, 255, 255, 0.65);
-    border: 0.3vmin dashed rgba(140, 70, 30, 0.4);
-    border-radius: 1.4vmin;
-    letter-spacing: 0.04em;
+    line-height: 1.55;
+    letter-spacing: 0.06em;
+    text-shadow: 0 0.2cqw 0 rgba(255, 255, 255, 0.6);
 }
 
 /* ===========================================================
@@ -530,31 +523,31 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2.4vmin;
-    padding-top: 1.2%;
-    padding-bottom: 4.5%;
+    gap: 3cqw;
+    padding-top: 1.5cqw;
+    padding-bottom: 5cqw;
 }
 
 .btn {
     flex: 1 1 0;
     min-height: 44px;
-    height: 7.4vmin;
+    height: 9cqw;
     border-radius: 999px;
-    font-size: 3vmin;
+    font-size: 3.6cqw;
     font-weight: 800;
     letter-spacing: 0.08em;
-    border: 0.4vmin solid var(--c-brown-line);
+    border: 0.5cqw solid var(--c-brown-line);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.8vmin;
+    gap: 1cqw;
     transition: transform 0.08s ease, box-shadow 0.12s ease, filter 0.12s ease;
 }
-.btn-icon { font-size: 3.2vmin; line-height: 1; }
+.btn-icon { font-size: 4cqw; line-height: 1; }
 .btn-text { line-height: 1; }
 
 .btn:active {
-    transform: translateY(0.4vmin);
+    transform: translateY(0.5cqw);
     filter: brightness(0.96);
 }
 
@@ -562,32 +555,32 @@
     color: #fff;
     background: linear-gradient(180deg, var(--c-orange) 0%, var(--c-orange-deep) 100%);
     box-shadow:
-        inset 0 0.7vmin 0 rgba(255, 255, 255, 0.45),
-        0 0.8vmin 0 var(--c-wood-deep),
-        0 1.2vmin 2vmin rgba(255, 120, 40, 0.4);
-    text-shadow: 0 0.2vmin 0 rgba(0, 0, 0, 0.25);
+        inset 0 0.8cqw 0 rgba(255, 255, 255, 0.45),
+        0 1cqw 0 var(--c-wood-deep),
+        0 1.6cqw 2.4cqw rgba(255, 120, 40, 0.4);
+    text-shadow: 0 0.3cqw 0 rgba(0, 0, 0, 0.25);
 }
 .btn-primary:active {
     box-shadow:
-        inset 0 0.4vmin 0 rgba(255, 255, 255, 0.35),
-        0 0.3vmin 0 var(--c-wood-deep),
-        0 0.6vmin 1vmin rgba(255, 120, 40, 0.35);
+        inset 0 0.5cqw 0 rgba(255, 255, 255, 0.35),
+        0 0.4cqw 0 var(--c-wood-deep),
+        0 0.8cqw 1.2cqw rgba(255, 120, 40, 0.35);
 }
 
 .btn-secondary {
     color: var(--c-brown);
     background: linear-gradient(180deg, var(--c-cream) 0%, var(--c-cream-3) 100%);
     box-shadow:
-        inset 0 0.7vmin 0 rgba(255, 255, 255, 0.7),
-        0 0.8vmin 0 rgba(140, 70, 30, 0.3),
-        0 1.2vmin 2vmin rgba(140, 70, 30, 0.18);
-    text-shadow: 0 0.2vmin 0 rgba(255, 255, 255, 0.6);
+        inset 0 0.8cqw 0 rgba(255, 255, 255, 0.7),
+        0 1cqw 0 rgba(140, 70, 30, 0.3),
+        0 1.6cqw 2.4cqw rgba(140, 70, 30, 0.18);
+    text-shadow: 0 0.3cqw 0 rgba(255, 255, 255, 0.6);
 }
 .btn-secondary:active {
     box-shadow:
-        inset 0 0.4vmin 0 rgba(255, 255, 255, 0.5),
-        0 0.3vmin 0 rgba(140, 70, 30, 0.3),
-        0 0.6vmin 1vmin rgba(140, 70, 30, 0.18);
+        inset 0 0.5cqw 0 rgba(255, 255, 255, 0.5),
+        0 0.4cqw 0 rgba(140, 70, 30, 0.3),
+        0 0.8cqw 1.2cqw rgba(140, 70, 30, 0.18);
 }
 
 /* ===== 适配兜底 ===== */

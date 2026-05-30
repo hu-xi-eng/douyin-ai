@@ -23,38 +23,22 @@
             <!-- 1. 标题区 -->
             <header class="section section-title" id="sectionTitle">
                 <div class="title-wrap">
-                    <span class="title-hat" aria-hidden="true">
-                        <svg viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg">
-                            <ellipse cx="20" cy="18" rx="14" ry="12" fill="#fff"/>
-                            <ellipse cx="44" cy="18" rx="14" ry="12" fill="#fff"/>
-                            <ellipse cx="32" cy="14" rx="14" ry="12" fill="#fff"/>
-                            <rect x="10" y="26" width="44" height="14" rx="3" fill="#fff"/>
-                            <path d="M10 32 Q32 36 54 32" stroke="#e9c9a8" stroke-width="2" fill="none"/>
-                        </svg>
-                    </span>
                     <span class="title-note title-note-l" aria-hidden="true">♪</span>
                     <span class="title-note title-note-r" aria-hidden="true">♫</span>
                     <h1 class="title-main">听音识物大挑战</h1>
                 </div>
                 <div class="title-sub">
-                    <span class="title-sub-text">本轮结算 · 你的复刻成果</span>
+                    <span class="title-sub-text">这一局你听见了什么</span>
                 </div>
             </header>
 
-            <!-- 2. 双图对比区 -->
-            <section class="section section-compare" id="sectionCompare">
-                <div class="compare-item">
-                    <div class="compare-label"><span>原始厨房</span></div>
-                    <div class="canvas-wrap">
-                        <canvas class="canvas-target" id="canvasOriginal"></canvas>
-                    </div>
+            <!-- 2. 单 Canvas 复刻厨房 -->
+            <section class="section section-canvas" id="sectionCanvas">
+                <div class="canvas-label-wrap">
+                    <span class="canvas-label">我的复刻厨房</span>
                 </div>
-                <div class="compare-vs" aria-hidden="true">VS</div>
-                <div class="compare-item">
-                    <div class="compare-label compare-label-mine"><span>我的复刻</span></div>
-                    <div class="canvas-wrap">
-                        <canvas class="canvas-player" id="canvasPlayer"></canvas>
-                    </div>
+                <div class="canvas-wrap canvas-wrap-solo">
+                    <canvas id="canvasPlayer"></canvas>
                 </div>
             </section>
 
@@ -100,7 +84,10 @@
 
             <!-- 6. 趣味提示语区 -->
             <section class="section section-tip" id="sectionTip">
-                <p class="tip-text" id="tipText">差一点就满分啦，再接再厉～</p>
+                <div class="tip-note">
+                    <span class="tip-tape" aria-hidden="true"></span>
+                    <p class="tip-text" id="tipText">独处时我才能听见自己的声音</p>
+                </div>
             </section>
 
             <!-- 7. 底部按钮区 -->
