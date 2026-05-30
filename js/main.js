@@ -235,8 +235,27 @@
     /* ============================================================
      * 启动
      * ============================================================ */
+    /* ============================================================
+     * 背景图预检：方便在控制台快速判断 bg 是否加载成功
+     * ============================================================ */
+    function checkBackgroundImage() {
+        var src = './assets/bg/ending.jpg';
+        var img = new Image();
+        img.onload = function () {
+            console.log('%c[BG] 背景图加载成功 ' + src + ' (' + img.naturalWidth + 'x' + img.naturalHeight + ')',
+                        'color:#5aa84a;font-weight:bold');
+        };
+        img.onerror = function () {
+            console.warn('%c[BG] 背景图未找到：' + src +
+                         '\n请把厨房插画文件保存到 assets/bg/ending.jpg（项目根目录下）',
+                         'color:#d63a55;font-weight:bold');
+        };
+        img.src = src;
+    }
+
     function boot() {
         bindActions();
+        checkBackgroundImage();
         applyState({
             score:      86,
             similarity: 92
